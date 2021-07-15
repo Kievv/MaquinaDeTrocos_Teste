@@ -1,0 +1,67 @@
+﻿
+@*@{
+    Layout = null;
+}*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Gerar Troco</title>
+</head>
+<body style="margin-top: 100px">
+
+    <form action="/MaquinaDeTroco/calcularTroco" method="post" id="formularioTroco">
+        <input type="number" id="recebido" name="recebido" value="ValorPago" placeholder="Valor Pago" />
+        <input type="number" id="produtos" name="produtos" value="valorTotal" placeholder="Preço Produto" />
+        <button type="submit" id="gerarTroco">Gerar Troco</button>
+    </form>
+
+    <div class="modal fade" id="modalCarregar" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img style="width: 100px; height: 100px" src="../Content/Imgs/tenor.gif" />
+                <h1>Carregando...</h1>
+            </div>
+        </div>
+    </div>
+ 
+
+
+    @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+
+
+
+    <script type="text/javascript">
+
+        $('#formularioTroco').on('submit', function (e) {
+            e.preventDefault();
+            $('#modalCarregar').modal('show');
+            $.ajax({
+                url: "/MaquinaDeTroco/calcularTroco",
+                data: $(this).serialize(),
+                dataType: "json",
+                method: "POST",
+                sucess: function (resp) {
+                    console.log("Deu certo!");
+                    $('#modalCarregar').modal('hide');
+                },
+                error: function (resp) {
+                    console.log("Deu errado :(")
+                    $('#modalCarregar').modal('hide');
+                }
+            });
+
+        });
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

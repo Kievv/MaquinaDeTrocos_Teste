@@ -1,0 +1,52 @@
+﻿body {
+
+
+    box-sizing: border-box;
+
+}
+
+#inputs{
+    margin-top: 300px;
+    width: 100%;
+}
+
+.inp {
+ 
+    outline: none;
+    text-align: center;
+    text-space-collapse:collapse;
+    
+}
+
+.card{
+    padding: 0 !important;
+    width: 20%;
+    margin-right: 2%;
+    border: none;
+}
+
+.card-img-top{ 
+    width: 50px;
+    margin: 20px auto 20px auto;
+    
+    
+}
+
+.card-body{
+    padding: 0;
+    width: 100%;
+}
+
+
+#botao{
+    margin-top: 20px;
+    background-color: black;
+    color:white;
+    border-radius: 15px;
+    width:20%;
+
+    border: none;
+}
+
+
+
