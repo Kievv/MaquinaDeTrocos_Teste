@@ -64,6 +64,7 @@ namespace MaquinaDeTrocos.Controllers
             return View("Troco");
         }
 
+        [HttpPost]
         public ActionResult calcularTroco(Teste x)
         {
             JsonResult retorno;
@@ -101,8 +102,6 @@ namespace MaquinaDeTrocos.Controllers
 
                             troco[i].quantidade = quantidadeNecessaria;
 
-                            
-
                         }
 
                         else
@@ -128,7 +127,7 @@ namespace MaquinaDeTrocos.Controllers
                     {
                         mensagem = "Deu errado!",
                         erro = "Quantidade de moedas insuficiente para realizar a operação"
-                    });
+                    }, JsonRequestBehavior.AllowGet);
                     
 
                 }
@@ -146,7 +145,7 @@ namespace MaquinaDeTrocos.Controllers
                     {
                         mensagem = "Deu certo",
                         sucesso = "Maquina atualizada com sucesso"
-                    });
+                    }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -157,7 +156,7 @@ namespace MaquinaDeTrocos.Controllers
                 {
                     mensagem = "Deu errado!",
                     erro = "Quantidade de moedas insuficiente para realizar a operação"
-                });
+                }, JsonRequestBehavior.AllowGet);
 
             }
             return retorno;

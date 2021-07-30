@@ -12,11 +12,21 @@
 </head>
 <body style="margin-top: 100px">
 
-    <form action="/MaquinaDeTroco/calcularTroco" method="post" id="formularioTroco">
+    @using (Html.BeginForm("calcularTroco", "MaquinaDeTroco", FormMethod.Post, new
+    {
+        id = "formularioTroco"
+    }))
+    {
         <input type="number" id="recebido" name="recebido" value="ValorPago" placeholder="Valor Pago" />
         <input type="number" id="produtos" name="produtos" value="valorTotal" placeholder="Preço Produto" />
         <button type="submit" id="gerarTroco">Gerar Troco</button>
-    </form>
+    }
+
+
+    @*<input type="number" id="recebido" name="recebido" value="ValorPago" placeholder="Valor Pago" />
+    <input type="number" id="produtos" name="produtos" value="valorTotal" placeholder="Preço Produto" />
+    <button type="submit" id="gerarTroco">Gerar Troco</button>*@
+
 
     <div class="modal fade" id="modalCarregar" aria-hidden="true">
         <div class="modal-dialog">
@@ -26,7 +36,17 @@
             </div>
         </div>
     </div>
- 
+
+    <div class="modal fade" id="modalCarregado" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img style="width: 100px; height: 100px" src="../Content/Imgs/tenor.gif" />
+                <h1>Deu certo!</h1>
+            </div>
+        </div>
+    </div>
+
+
 
 
     @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
@@ -38,16 +58,20 @@
         $('#formularioTroco').on('submit', function (e) {
             e.preventDefault();
             $('#modalCarregar').modal('show');
+
             $.ajax({
                 url: "/MaquinaDeTroco/calcularTroco",
                 data: $(this).serialize(),
                 dataType: "json",
                 method: "POST",
+                cache: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 sucess: function (resp) {
                     console.log("Deu certo!");
                     $('#modalCarregar').modal('hide');
+                    $('#modalCarregado').modal('show');
                 },
-                error: function (resp) {
+                error: function (erro) {
                     console.log("Deu errado :(")
                     $('#modalCarregar').modal('hide');
                 }

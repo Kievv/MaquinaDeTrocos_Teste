@@ -83,7 +83,7 @@
 
 
         $.ajax({
-            url: "MaquinaDeTroco/addMoedas",
+            url: $(this).attr('action'),
             data: $(this).serialize(),
             dataType: "json",
             method: "POST",
