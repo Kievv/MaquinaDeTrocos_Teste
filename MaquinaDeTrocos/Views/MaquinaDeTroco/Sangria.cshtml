@@ -1,32 +1,45 @@
 ﻿@*@{
-    Layout = null;
-}*@
+        Layout = null;
+    }*@
 
-@model MaquinaDeTrocos.Models.MaquinadeTrocoModel
+@model MaquinaDeTrocos.Models.novasMoedas
 
 
-    <title>Sangria</title>
+<title>Sangria</title>
 
-@using (Html.BeginForm("Sangria", "MaquinaDeTroco", FormMethod.Post, new { id = "formularioSangria" }))
-            {
+@using (Html.BeginForm("removeMoedas", "MaquinaDeTroco", FormMethod.Post, new { id = "formularioSangria" }))
+{
 
-            
+    <h1 style="margin:auto">Selecione a quantidade de moedas a serem retiradas</h1>
+
 
     <div class="col-md-12">
-        
-        @for (int i = 0; i < Model.moedas.Count; i++)
-            {
-                <div class="card col-md-2">
-                    <img class="card-img-top" src="@Url.Content(Model.moedas[i].srcIgm)" />
-                    <div class="card-body corpo-do-cartao">@Model.moedas[i].quantidade</div>
-                    <input id="'inp' + '@Model.moedas[i].nome'" class="card-footer" type="number" placeholder="0" name="@Model.moedas[i].nome" />
-                </div>
-                <span style="display:none;" id="inp-tamanho">@Model.moedas.Count</span>
-            }
+
+        @for (int i = 0; i < Model.moedasList.Count; i++)
+        {
+            <div class="card col-md-2">
+                <img class="card-img-top" src="@Url.Content(Model.moedasList[i].srcIgm)" />
+                @*<div class="card-body corpo-do-cartao">@Model.moedasList[i].quantidade</div>*@
+                @Html.EditorFor(x => x.moedasList[i].quantidade,
+           new { htmlAttributes = new { @class = "inp card-body " + Model.moedasList[i].valor, @id = Model.moedasList[i].nome, @placeholder = "0" } })
+            </div>
+            <span style="display:none;" id="inp-tamanho">@Model.moedasList.Count</span>
+        }
         <button type="submit" id="botao-sangria" class="col-lg-offset-5 col-lg-2">Retirar Moedas</button>
 
     </div>
 }
+
+<div>
+    <h1 id="h1-texto" style="display: none;">Estado atual da máquina</h1>
+    @for (int i = 0; i < Model.moedasList.Count; i++)
+    {
+        <div id="@Model.moedasList[i].valor"></div>
+    }
+
+
+</div>
+
 
 @Scripts.Render("~/bundles/jquery")
 
@@ -34,16 +47,29 @@
 
     $("#formularioSangria").on("submit", function (e) {
 
-        let valorMoedas = new Array();
+        e.preventDefault();
 
-        for (int i = 0; i < @Model)
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: "json",
+            method: "POST",
+            success: function (resp) {
+                console.log("Deu certo!");
+                $("#h1-texto").css("display", "block")
+
+                for (let i = 0; i < resp.valores.length; i++) {
+                    $("#" + resp.valores[i].nome).val(0);
+                    $("#" + resp.valores[i].valor).text(resp.valores[i].quantidade + " moedas de " + resp.valores[i].valor + " centavos");
+
+                }
+
+            },
+            error: function (resp) {
+                console.log("Deu errado :(")
+            }
+        });
     })
-
-
-        
-
-
-
 
 </script>
 

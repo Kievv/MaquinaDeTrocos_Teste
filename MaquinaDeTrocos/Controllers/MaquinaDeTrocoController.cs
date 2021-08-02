@@ -10,19 +10,20 @@ namespace MaquinaDeTrocos.Controllers
 {
     public class MaquinaDeTrocoController : Controller
     {
-        MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
+        
 
         // GET: MaquinaDeTroco
         public ActionResult Index()
         {
+            MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
             novasMoedas moedasDois = new novasMoedas();
 
             moedasDois.moedasList = maquina.moedas;
 
-            foreach(Moedas m in moedasDois.moedasList)
-            {
-                m.quantidade = 0;
-            }
+            //foreach(Moedas m in moedasDois.moedasList)
+            //{
+            //    m.quantidade = 0;
+            //}
           
             return View("abastecer", moedasDois);
         }
@@ -30,6 +31,7 @@ namespace MaquinaDeTrocos.Controllers
         [HttpPost]
         public ActionResult addMoedas(novasMoedas moedasDois)
         {
+            MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
 
             for (int i = 0; i < moedasDois.moedasList.Count; i++)
             {
@@ -67,6 +69,7 @@ namespace MaquinaDeTrocos.Controllers
         [HttpPost]
         public ActionResult calcularTroco(Teste x)
         {
+            MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
             JsonResult retorno;
 
             double vReceb = Convert.ToDouble(x.recebido);
@@ -162,8 +165,69 @@ namespace MaquinaDeTrocos.Controllers
             return retorno;
         }
 
+        
+        public ActionResult sangria()
+        {
+            MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
+            novasMoedas moedasSangria = new novasMoedas();
 
-            
+            moedasSangria.moedasList = maquina.moedas;
+
+            return View("Sangria", moedasSangria);
+
+        }
+
+        [HttpPost]
+        public ActionResult removeMoedas(novasMoedas moedasSangria)
+        {
+            MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
+            JsonResult retorno;
+            string sucesso = "s";
+
+            for (int i = 0; i < moedasSangria.moedasList.Count; i++)
+            {
+                if (maquina.moedas[i].quantidade - moedasSangria.moedasList[i].quantidade >= 0)
+                {
+                    maquina.moedas[i].quantidade -= moedasSangria.moedasList[i].quantidade;
+
+                    //retorno = Json(new
+                    //{
+                    //    sucesso = "Tudo certo!",
+                    //    mensagem = "Tmj"
+                    //}, JsonRequestBehavior.AllowGet);
+                    
+                }
+                else
+                {
+                    sucesso = "n";
+                    
+                }
+            }
+
+            if (sucesso == "s")
+            {
+                retorno = Json(new
+                {
+                    sucesso = "Tudo certo!",
+                    valores = maquina.moedas,
+                    mensagem = "Tmj"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                retorno = Json(new
+                {
+                    erro = "Deu ruim!",
+                    valores = maquina.moedas,
+                    mensagem = "TMJ não"
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            maquina.calcularTotal();
+
+            return retorno;
+
+        }
         
 
         public class Teste {

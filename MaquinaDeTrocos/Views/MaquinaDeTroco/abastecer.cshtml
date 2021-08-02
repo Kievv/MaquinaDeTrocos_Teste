@@ -16,6 +16,8 @@
     <div class="row col-md-12">
         @for (int i = 0; i < Model.moedasList.Count; i++)
         {
+            //Model.moedasList[i].quantidade = 0;
+
 
             <div class="card">
                 <img class="card-img-top" src="@Url.Content(@Model.moedasList[i].srcIgm)" />
@@ -24,6 +26,7 @@
                 @*<input id="@Model.moedas[i].nome" class="inp card-body" type="number" placeholder="0" name="@Model.moedas[i].nome" />*@
             </div>
             <span style="display:none;" id="inp-tamanho">@Model.moedasList.Count</span>
+
         }
         <div class="row justify-content-center">
             <button type="submit" id="botao" class="col-lg-offset-5 col-lg-2">Adicionar Moedas</button>
@@ -33,6 +36,16 @@
 
     
 }
+
+<div>
+    <h1 id="h1-texto" style="display: none;">Estado atual da máquina</h1>
+    @for (int i = 0; i < Model.moedasList.Count; i++)
+            {
+                <div id="@Model.moedasList[i].valor"></div>
+            }
+
+
+</div>
 
 <h1>@ViewBag.message</h1>
 
@@ -58,6 +71,7 @@
         valorMoedas.push($("#vinteCincoCent"));
         valorMoedas.push($("#cinquentaCent"));
         valorMoedas.push($("#umReal"));
+
 
         for (let i = 0; i < valorMoedas.length; i++) {
 
@@ -87,9 +101,12 @@
             method: "POST",
             success: function (resp) {
                 console.log("Deu certo!");
+                $("#h1-texto").css("display", "block")
 
                 for (let i = 0; i < resp.valores.length; i++){
-                    $("#" + resp.valores[i].nome).text(resp.valores[i].quantidade);
+                    $("#" + resp.valores[i].nome).val(0);
+                    $("#" + resp.valores[i].valor).text(resp.valores[i].quantidade + " moedas de " + resp.valores[i].valor + " centavos");
+                    
                 }
 
             },

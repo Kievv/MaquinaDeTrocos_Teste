@@ -30,7 +30,8 @@ namespace MaquinaDeTrocos.Models
 
         public void calcularTotal()
         {
-            caixaTotal = 0;
+            
+
             foreach(Moedas m in moedas)
             {
                 caixaTotal += m.quantidade * m.valor;
@@ -41,6 +42,7 @@ namespace MaquinaDeTrocos.Models
 
         private MaquinadeTrocoModel()
         {
+            caixaTotal = 0;
             string path = "~/Content/Imgs/";
 
             moedas = new List<Moedas>();
@@ -81,7 +83,7 @@ namespace MaquinaDeTrocos.Models
             cinquentaCentavos.nome = "cinquentaCent";
             cinquentaCentavos.valor = 50;
             cinquentaCentavos.quantidade = 0;
-            cinquentaCentavos.srcIgm = path + vinteCincoCentavos.nome + ".png";
+            cinquentaCentavos.srcIgm = path + cinquentaCentavos.nome + ".png";
             moedas.Add(cinquentaCentavos);
 
             Moedas umReal = new Moedas();
