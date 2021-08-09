@@ -84,5 +84,22 @@ img{
     margin-top: 80px;
 }
 
+#menu{
+    background-color: black;
+    color: white;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
 
+a:hover{
+    text-decoration: none;
+    color: black;
+}
+
+.navbar-brand:hover{
+    background-color:white;
+    color: black;
+}
 
