@@ -10,27 +10,32 @@
 @using (Html.BeginForm("removeMoedas", "MaquinaDeTroco", FormMethod.Post, new { id = "formularioSangria" }))
 {
 
-    <h1 style="margin:auto">Selecione a quantidade de moedas a serem retiradas</h1>
+    <h1 class="text-center" style="margin-top:100px;">Selecione a quantidade de moedas a serem retiradas</h1>
 
 
-    <div class="col-md-12">
+    <div class="row col-md-12 text-center">
 
         @for (int i = 0; i < Model.moedasList.Count; i++)
         {
-            <div class="card col-md-2">
+            <div class="card col-lg-4">
                 <img class="card-img-top" src="@Url.Content(Model.moedasList[i].srcIgm)" />
                 @*<div class="card-body corpo-do-cartao">@Model.moedasList[i].quantidade</div>*@
                 @Html.EditorFor(x => x.moedasList[i].quantidade,
            new { htmlAttributes = new { @class = "inp card-body " + Model.moedasList[i].valor, @id = Model.moedasList[i].nome, @placeholder = "0" } })
             </div>
             <span style="display:none;" id="inp-tamanho">@Model.moedasList.Count</span>
+
+            if (i == 2)
+            {
+                <div class="row col-md-12"></div>
+            }
         }
-        <button type="submit" id="botao-sangria" class="col-lg-offset-5 col-lg-2">Retirar Moedas</button>
+        <button type="submit" id="botao-sangria" class="col-lg-2">Retirar Moedas</button>
 
     </div>
 }
 
-<div>
+<div class="container-estado text-center col-lg-12" style="display:none;">
     <h1 id="h1-texto" style="display: none;">Estado atual da máquina</h1>
     @for (int i = 0; i < Model.moedasList.Count; i++)
     {
@@ -56,6 +61,7 @@
             method: "POST",
             success: function (resp) {
                 console.log("Deu certo!");
+                $(".container-estado").css("display", "block")
                 $("#h1-texto").css("display", "block")
 
                 for (let i = 0; i < resp.valores.length; i++) {

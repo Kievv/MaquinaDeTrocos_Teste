@@ -13,23 +13,27 @@
 @using (Html.BeginForm("addMoedas", "MaquinaDeTroco", FormMethod.Post, new { id = "formularioTeste" }))
 {
 
-    <div class="row col-md-12">
+    <div class="row col-md-12 text-center" id="container-abastecer">
         @for (int i = 0; i < Model.moedasList.Count; i++)
         {
             //Model.moedasList[i].quantidade = 0;
 
 
-            <div class="card">
+            <div class="card col-lg-4">
                 <img class="card-img-top" src="@Url.Content(@Model.moedasList[i].srcIgm)" />
                 @Html.EditorFor( x => x.moedasList[i].quantidade, 
                new { htmlAttributes = new { @class = "inp card-body " + Model.moedasList[i].valor, @id = Model.moedasList[i].nome, @placeholder = "0"} })
                 @*<input id="@Model.moedas[i].nome" class="inp card-body" type="number" placeholder="0" name="@Model.moedas[i].nome" />*@
             </div>
+            if(i == 2)
+                    {
+                        <div class="row col-md-12"></div>
+                    }
             <span style="display:none;" id="inp-tamanho">@Model.moedasList.Count</span>
 
         }
         <div class="row justify-content-center">
-            <button type="submit" id="botao" class="col-lg-offset-5 col-lg-2">Adicionar Moedas</button>
+            <button type="submit" id="botao" class="col-lg-2">Adicionar Moedas</button>
         </div>
     </div>
     
@@ -37,7 +41,7 @@
     
 }
 
-<div>
+<div class="container-estado text-center col-lg-12" style="display:none;">
     <h1 id="h1-texto" style="display: none;">Estado atual da máquina</h1>
     @for (int i = 0; i < Model.moedasList.Count; i++)
             {
@@ -47,7 +51,7 @@
 
 </div>
 
-<h1>@ViewBag.message</h1>
+
 
 
 
@@ -101,6 +105,7 @@
             method: "POST",
             success: function (resp) {
                 console.log("Deu certo!");
+                $(".container-estado").css("display", "block")
                 $("#h1-texto").css("display", "block")
 
                 for (let i = 0; i < resp.valores.length; i++){
