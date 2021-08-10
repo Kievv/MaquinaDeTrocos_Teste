@@ -103,3 +103,51 @@ a:hover{
     color: black;
 }
 
+#modalCarregar {
+    text-align: center;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#modalCarregar .modal-content {
+    background: none;
+    border: none;
+}
+
+#modalCarregar h1 {
+    color: white;
+}
+
+#modalCarregar .modal-content img{
+    height: 80px;
+    width: 80px;
+}
+#modalCarregar .modal-content h1{
+    color: white;
+}
+
+#modalCarregado {
+    position:center;
+    text-align: center;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+#modalCarregado .modal-content{
+    background: none;
+    border: none;
+}
+#modalCarregado .modal-content img {
+    height:80px;
+    width: 90px;
+}
+#modalCarregado .modal-content h1{
+    color: white;
+}
+
+.modal-dialog{
+    margin-top: 100px;
+}
+#imagem-troco{
+    width: 80px;
+    height: 80px;
+}

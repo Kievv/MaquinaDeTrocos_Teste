@@ -63,7 +63,12 @@ namespace MaquinaDeTrocos.Controllers
 
         public ActionResult valorTroco()
         {
-            return View("Troco");
+            MaquinadeTrocoModel maquina = MaquinadeTrocoModel.getMaquina();
+            novasMoedas moedasDois = new novasMoedas();
+
+            moedasDois.moedasList = maquina.moedas;
+
+            return View("Troco", moedasDois);
         }
 
         [HttpPost]
@@ -85,7 +90,7 @@ namespace MaquinaDeTrocos.Controllers
             if ((maquina.caixaTotal - restante) >= 0)
             {
 
-                for (int i = 0; i < maquina.moedas.Count(); i++)
+                for (int i = maquina.moedas.Count() - 1; i >= 0; i--)
                 {
                     Moedas moeda = new Moedas();
                     
@@ -103,7 +108,7 @@ namespace MaquinaDeTrocos.Controllers
                         {
                             restante -= quantidadeNecessaria * moedaList[i].valor;
 
-                            troco[i].quantidade = quantidadeNecessaria;
+                            troco[(maquina.moedas.Count() -1) - i].quantidade = quantidadeNecessaria;
 
                         }
 
@@ -128,7 +133,7 @@ namespace MaquinaDeTrocos.Controllers
                 {
                     retorno = Json(new
                     {
-                        mensagem = "Deu errado!",
+                        mensagem = "E",
                         erro = "Quantidade de moedas insuficiente para realizar a operação"
                     }, JsonRequestBehavior.AllowGet);
                     
@@ -146,7 +151,8 @@ namespace MaquinaDeTrocos.Controllers
 
                     retorno = Json(new
                     {
-                        mensagem = "Deu certo",
+                        valores = troco,
+                        mensagem = "S",
                         sucesso = "Maquina atualizada com sucesso"
                     }, JsonRequestBehavior.AllowGet);
                 }
@@ -157,7 +163,7 @@ namespace MaquinaDeTrocos.Controllers
             {
                 retorno = Json(new
                 {
-                    mensagem = "Deu errado!",
+                    mensagem = "E",
                     erro = "Quantidade de moedas insuficiente para realizar a operação"
                 }, JsonRequestBehavior.AllowGet);
 
